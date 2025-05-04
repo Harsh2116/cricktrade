@@ -286,100 +286,19 @@ function getCurrentUser() {
     return localStorage.getItem("crickfestCurrentUser") || "unknown";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOMContentLoaded event fired. Current URL:", window.location.href);
-
-    // Setup WebSocket connection
-    window.socketReady = false;
-    window.socket = new WebSocket("ws://localhost:8080");
-
-    window.socket.addEventListener("open", () => {
-        console.log("Connected to WebSocket server");
-        window.socketReady = true;
-        // Send identify message with current user to associate connection on server
-        const currentUser = getCurrentUser();
-        console.log("Current user on WebSocket open:", currentUser);
-        if (currentUser) {
-            window.socket.send(JSON.stringify({ type: "identify", user: currentUser }));
-            console.log("Sent identify message for user:", currentUser);
-        }
-    });
-
-    window.socket.addEventListener("close", () => {
-        console.log("WebSocket connection closed");
-        window.socketReady = false;
-        // Retry connection after 3 seconds
-        setTimeout(() => {
-            console.log("Reconnecting WebSocket...");
-            window.socket = new WebSocket("ws://localhost:8080");
-            attachSocketListeners();
-        }, 3000);
-    });
-
-    window.socket.addEventListener("error", (error) => {
-        console.error("WebSocket error:", error);
-        window.socketReady = false;
-    });
-
-    function attachSocketListeners() {
-        window.socket.addEventListener("open", () => {
-            console.log("Connected to WebSocket server");
-            window.socketReady = true;
-            const currentUser = getCurrentUser();
-            if (currentUser) {
-                window.socket.send(JSON.stringify({ type: "identify", user: currentUser }));
-                console.log("Sent identify message for user:", currentUser);
+function fetchUpdates() {
+    fetch('/api/getUpdates')
+        .then(response => response.json())
+        .then(data => {
+            if (data.stocks) {
+                iplPlayers.length = 0;
+                data.stocks.forEach(stock => iplPlayers.push(stock));
+                loadStocks(iplPlayers);
             }
-        });
-
-        window.socket.addEventListener("close", () => {
-            console.log("WebSocket connection closed");
-            window.socketReady = false;
-            setTimeout(() => {
-                console.log("Reconnecting WebSocket...");
-                window.socket = new WebSocket("ws://localhost:8080");
-                attachSocketListeners();
-            }, 3000);
-        });
-
-        window.socket.addEventListener("error", (error) => {
-            console.error("WebSocket error:", error);
-            window.socketReady = false;
-        });
-    }
-
-    attachSocketListeners();
-
-socket.addEventListener("message", (event) => {
-    try {
-        const data = JSON.parse(event.data);
-        if (data.type === "init") {
-            // Initialize stocks from server data
-        if (Array.isArray(data.stocks)) {
-            console.log("Received init message with stocks count:", data.stocks.length);
-            iplPlayers.length = 0;
-            data.stocks.forEach(stock => iplPlayers.push(stock));
-            loadStocks(iplPlayers);
-            iplPlayersLoaded = true;
-            // If portfolio was saved but not rendered due to iplPlayers not loaded, render now
-            if ((window.location.pathname.endsWith("portfolio.html") || window.location.href.includes("portfolio.html")) && getPortfolio() && Object.keys(getPortfolio()).length > 0) {
-                console.log("iplPlayers loaded, rendering portfolio table now");
+            if (data.portfolio) {
+                savePortfolio(data.portfolio);
                 loadPortfolioTable();
             }
-        }
-        // Initialize portfolio if provided
-        if (data.portfolio) {
-            console.log("Received initial portfolio:", data.portfolio);
-            savePortfolio(data.portfolio);
-            if (iplPlayersLoaded) {
-                if (window.location.pathname.endsWith("portfolio.html") || window.location.href.includes("portfolio.html")) {
-                    loadPortfolioTable();
-                }
-            } else {
-                console.log("iplPlayers not loaded yet, delaying portfolio table rendering");
-            }
-        }
-            // Initialize wallet balance if provided
             if (typeof data.walletBalance === "number") {
                 localStorage.setItem("crickfestWallet", data.walletBalance.toFixed(2));
                 const walletBalanceDisplay = document.getElementById("wallet-balance-display");
@@ -387,65 +306,33 @@ socket.addEventListener("message", (event) => {
                     walletBalanceDisplay.textContent = `₹${data.walletBalance.toFixed(2)}`;
                 }
             }
-        } else if (data.type === "update") {
-            // Update specific stock data
-            updateStockData(data.stock);
-        } else if (data.type === "transaction") {
-            // Transactions handled elsewhere
-        } else if (data.type === "portfolioUpdate") {
-            console.log("Received portfolioUpdate message:", data.portfolio);
-            // Convert portfolio array to object keyed by symbol
-            const portfolioObj = {};
-            if (Array.isArray(data.portfolio)) {
-                data.portfolio.forEach(item => {
-                    portfolioObj[item.symbol] = {
-                        symbol: item.symbol,
-                        name: item.name,
-                        quantity: item.quantity,
-                        purchasePrice: item.purchasePrice
-                    };
-                });
-            }
-            console.log("Saving portfolio");
-            // Update portfolio data
-            savePortfolio(portfolioObj);
-            if (iplPlayersLoaded) {
-                if (window.location.pathname.endsWith("portfolio.html") || window.location.href.includes("portfolio.html")) {
-                    console.log("Reloading portfolio table due to portfolioUpdate");
-                    loadPortfolioTable();
-                }
-            } else {
-                console.log("iplPlayers not loaded yet, delaying portfolio table rendering");
-            }
-        } else if (data.type === "error") {
-            alert("Error from server: " + data.message);
-        }
-    } catch (err) {
-        console.error("Error parsing WebSocket message:", err);
-    }
-});
+        })
+        .catch(error => {
+            console.error('Error fetching updates:', error);
+        });
+}
 
-    socket.addEventListener("close", () => {
-        console.log("WebSocket connection closed");
-    });
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded event fired. Current URL:", window.location.href);
 
-    socket.addEventListener("error", (error) => {
-        console.error("WebSocket error:", error);
-    });
+    // Start polling every 5 seconds
+    fetchUpdates();
+    setInterval(fetchUpdates, 5000);
 
     // Redirect to login if not logged in
     if (typeof redirectIfNotLoggedIn === "function") {
         redirectIfNotLoggedIn();
     }
+
     // Existing code for stocks and portfolio pages
     if (window.location.pathname.endsWith("stocks.html") || window.location.href.includes("stocks.html")) {
         console.log("Loading IPL players stocks...");
-        // Removed initial loadStocks call to rely on backend data via WebSocket "init" message
-        // loadStocks(iplPlayers);  // Load new IPL players stocks with price range 1-10 INR
+        // Removed initial loadStocks call to rely on backend data via polling
     } else if (window.location.pathname.endsWith("portfolio.html") || window.location.href.includes("portfolio.html")) {
         console.log("Loading portfolio table...");
         loadPortfolioTable();
     }
+
     // Add event listener for transactions button
     const transactionsLink = document.querySelector('a[href="transactions.html"]');
     if (transactionsLink) {
