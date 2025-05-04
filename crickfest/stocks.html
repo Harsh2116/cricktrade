@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crickfest - IPL Players Stocks</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header>
+        <div class="logo">Crickfest</div>
+        <nav>
+            <ul>
+                <li><a href="stocks.html" class="active">Stocks</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="contests.html">Contests</a></li>
+                <li><a href="my-contests.html">My Contests</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="wallet.html">Wallet</a></li>
+                <li><a href="withdraw.html">Withdraw</a></li>
+                <li><a href="transactions.html">Transactions</a></li>
+                <li><a href="referral.html">Referral</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+        <button id="loginBtn">Login</button>
+        <button id="logoutBtn" style="display:none;">Logout</button>
+    </header>
+
+    <main>
+        <section class="market-overview">
+            <h2>IPL Players Stocks</h2>
+            <div class="stocks-list" id="stocks-list">
+                <!-- IPL player stocks will be inserted here by JS -->
+            </div>
+        </section>
+    </main>
+
+   
+
+    <script src="script.js"></script>
+    <script src="script-login-logout-toggle.js"></script>
+    <script src="auth.js"></script>
+    <script src="script-auth-redirect.js"></script>
+</body>
+</html>

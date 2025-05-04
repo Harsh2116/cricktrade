@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Referral Program - Crickfest</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+        header {
+            margin-top: 40px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+        main {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 60px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+        }
+        #referral-code {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin: 20px 0;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #referral-link {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 15px;
+            user-select: all;
+        }
+        #copy-link-btn {
+            background: #e52e71;
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 15px rgba(229, 46, 113, 0.6);
+        }
+        #copy-link-btn:hover {
+            background: #ff8a00;
+            box-shadow: 0 6px 20px rgba(255, 138, 0, 0.8);
+        }
+        #copy-message {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #a0f0a0;
+            display: none;
+        }
+        .info-text {
+            margin-top: 30px;
+            font-size: 1.1rem;
+            color: #f0e68c;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Referral Program</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Your Unique Referral Code</h2>
+            <p id="referral-code"></p>
+            <h3>Share your referral link:</h3>
+            <input type="text" id="referral-link" readonly />
+            <button id="copy-link-btn">Copy Link</button>
+            <p id="copy-message">Referral link copied to clipboard!</p>
+            <p class="info-text">
+                If any new user signs up using your referral code and adds their first ₹80 to the wallet, you will get ₹10 credited to your wallet.
+            </p>
+        </section>
+    </main>
+    <script src="script-referral.js"></script>
+</body>
+</html>

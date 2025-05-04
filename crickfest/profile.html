@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Profile - Crickfest</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        main {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        .profile-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .auth-form label {
+            margin-top: 1rem;
+            display: block;
+            font-weight: 600;
+            color: #0f4c81;
+        }
+        .auth-form input[type="text"],
+        .auth-form input[type="email"],
+        .auth-form textarea {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            margin-top: 0.3rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+        .auth-form input[type="text"]:focus,
+        .auth-form input[type="email"]:focus,
+        .auth-form textarea:focus {
+            box-shadow: 0 0 8px #0f4c81;
+            border-color: #0f4c81;
+        }
+        .auth-form button {
+            margin-top: 1.5rem;
+            background-color: #0f4c81;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(15, 76, 129, 0.6);
+        }
+        .auth-form button:hover {
+            background-color: #0b3660;
+            box-shadow: 0 6px 14px rgba(11, 54, 96, 0.8);
+        }
+        .success-message {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #28a745;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        #profileDetails {
+            background-color: #f0f8ff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(15, 76, 129, 0.2);
+            color: #0f4c81;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #profileDetails h2 {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #0f4c81;
+            padding-bottom: 0.5rem;
+        }
+        #profileDetails p {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+        #profileDetails strong {
+            color: #0b3d66;
+        }
+        #editProfileBtn {
+            margin-top: 1.5rem;
+            background-color: #0f4c81;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(15, 76, 129, 0.6);
+        }
+        #editProfileBtn:hover {
+            background-color: #0b3660;
+            box-shadow: 0 6px 14px rgba(11, 54, 96, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Crickfest</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="stocks.html">Stocks</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="auth-form profile-card">
+            <h2>User Profile</h2>
+            <form id="profileForm">
+                <label for="email">Email (readonly)</label>
+                <input type="email" id="email" name="email" readonly />
+
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required />
+
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required />
+
+                <label for="fullAddress">Full Address</label>
+                <textarea id="fullAddress" name="fullAddress" rows="3" required></textarea>
+
+                <label for="pincode">Pincode</label>
+                <input type="text" id="pincode" name="pincode" required title="Please enter a valid 6-digit pincode" placeholder="123456" />
+
+                <label for="state">State</label>
+                <input type="text" id="state" name="state" required />
+
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" required />
+
+                <button type="submit">Save Profile</button>
+                <p class="success-message" id="profileSuccess" style="color: green; margin-top: 1rem;"></p>
+            </form>
+        </section>
+
+        <section id="profileDetails" class="profile-card" style="display:none;">
+            <h2>Saved Profile Details</h2>
+            <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+            <p><strong>First Name:</strong> <span id="detailFirstName"></span></p>
+            <p><strong>Last Name:</strong> <span id="detailLastName"></span></p>
+            <p><strong>Full Address:</strong> <span id="detailFullAddress"></span></p>
+            <p><strong>Pincode:</strong> <span id="detailPincode"></span></p>
+            <p><strong>State:</strong> <span id="detailState"></span></p>
+            <p><strong>City:</strong> <span id="detailCity"></span></p>
+            <button id="editProfileBtn">Edit Profile</button>
+        </section>
+    </main>
+
+    <script src="auth.js"></script>
+    <script src="script-profile.js"></script>
+    <script src="script-auth-redirect.js"></script>
+</body>
+</html>

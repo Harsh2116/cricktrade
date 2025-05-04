@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Contests - Crickfest</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.8rem;
+            color: #1f2937;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        .contest-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .contest-list li {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            font-weight: 700;
+            font-size: 1.3rem;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .contest-list li:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        .no-contests {
+            text-align: center;
+            font-style: italic;
+            color: #718096;
+            margin-top: 80px;
+            font-size: 1.2rem;
+        }
+        .prize-info {
+            margin-top: 12px;
+            font-size: 1.1rem;
+            color: #4a5568;
+            font-weight: 600;
+        }
+        .applied-label {
+            margin-top: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #38a169;
+        }
+        a.back-link {
+            display: block;
+            margin-bottom: 40px;
+            text-decoration: none;
+            color: #3182ce;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        a.back-link:hover {
+            color: #2c5282;
+            text-decoration: underline;
+        }
+        h2 {
+            margin-top: 60px;
+            font-size: 2rem;
+            color: #2d3748;
+            border-bottom: 2px solid #cbd5e0;
+            padding-bottom: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: none;
+            padding: 14px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        th {
+            background-color: #edf2f7;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+        tbody tr:hover {
+            background-color: #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <a href="contests.html" class="back-link">&larr; Back to Contests</a>
+    <h1>My Contests</h1>
+    <ul id="my-contests-list" class="contest-list"></ul>
+    <p id="no-contests-msg" class="no-contests" style="display:none;">You have not applied to any contests yet.</p>
+
+    <h2>Leaderboard</h2>
+    <table id="leaderboard-table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>User</th>
+                <th>Profit</th>
+            </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+            <!-- Leaderboard rows will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        function loadMyContests() {
+            const myContestsList = document.getElementById('my-contests-list');
+            const noContestsMsg = document.getElementById('no-contests-msg');
+            myContestsList.innerHTML = '';
+
+            const appliedContests = JSON.parse(localStorage.getItem('appliedContests') || '[]');
+
+            if (appliedContests.length === 0) {
+                noContestsMsg.style.display = 'block';
+                return;
+            } else {
+                noContestsMsg.style.display = 'none';
+            }
+
+            appliedContests.forEach(contestName => {
+                const li = document.createElement('li');
+                li.textContent = contestName;
+
+                const prizeInfo = document.createElement('div');
+                prizeInfo.className = 'prize-info';
+
+                if (contestName === 'Contest 1: Investment between 80 and 100') {
+                    prizeInfo.textContent = 'Price distribution: Users in the top 70% rank will get ₹120';
+                } else if (contestName === 'Contest 2: Investment between 200 and 500') {
+                    prizeInfo.textContent = 'Price distribution: Users in the top 70% rank will get ₹250';
+                } else if (contestName === 'Contest 3: Investment between 500 and 1000') {
+                    prizeInfo.textContent = 'Price distribution: Users in the top 70% rank will get ₹600';
+                } else {
+                    prizeInfo.textContent = '';
+                }
+
+                li.appendChild(prizeInfo);
+
+                const appliedLabel = document.createElement('div');
+                appliedLabel.className = 'applied-label';
+                appliedLabel.textContent = 'You applied in this contest';
+                li.appendChild(appliedLabel);
+
+                myContestsList.appendChild(li);
+            });
+        }
+
+        function updateLeaderboard(leaderboard) {
+            const leaderboardBody = document.getElementById('leaderboard-body');
+            leaderboardBody.innerHTML = '';
+
+            leaderboard.forEach((entry, index) => {
+                const tr = document.createElement('tr');
+
+                const rankTd = document.createElement('td');
+                rankTd.textContent = index + 1;
+                tr.appendChild(rankTd);
+
+                const userTd = document.createElement('td');
+                userTd.textContent = entry.username || entry.userId || 'Unknown';
+                tr.appendChild(userTd);
+
+                const profitTd = document.createElement('td');
+                profitTd.textContent = entry.profit != null ? entry.profit : '-';
+                tr.appendChild(profitTd);
+
+                leaderboardBody.appendChild(tr);
+            });
+        }
+
+        function fetchLeaderboard() {
+            const ws = new WebSocket('ws://localhost:8080');
+
+            ws.addEventListener('open', () => {
+                ws.send(JSON.stringify({ type: 'getLeaderboard' }));
+            });
+
+            ws.addEventListener('message', (event) => {
+                const data = JSON.parse(event.data);
+                if (data.type === 'leaderboard') {
+                    updateLeaderboard(data.leaderboard);
+                }
+            });
+
+            // Refresh leaderboard every 10 seconds
+            setInterval(() => {
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ type: 'getLeaderboard' }));
+                }
+            }, 10000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMyContests();
+            fetchLeaderboard();
+        });
+    </script>
+</body>
+</html>

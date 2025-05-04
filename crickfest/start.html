@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Crickfest - Welcome</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --secondary-color: #6366f1;
+      --background-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+      --text-color: #111827;
+      --button-radius: 9999px;
+      --shadow-color: rgba(79, 70, 229, 0.4);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: white;
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--background-gradient);
+      color: white;
+      text-shadow: 0 2px 8px var(--shadow-color);
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      gap: 2rem;
+    }
+    .content-box {
+      background: rgba(79, 70, 229, 0.1);
+      border-radius: 15px;
+      padding: 1.5rem 2rem;
+      max-width: 900px;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
+      text-align: left;
+    }
+    .content-box h2 {
+      margin-top: 0;
+      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .content-box p {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      margin: 0;
+      white-space: normal;
+      color: #333;
+    }
+    .buttons {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      width: 100%;
+    }
+    .btn {
+      padding: 0.75rem 3rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      border-radius: var(--button-radius);
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: white;
+      box-shadow: 0 8px 20px var(--shadow-color);
+      user-select: none;
+      flex: 1;
+      max-width: 200px;
+      text-align: center;
+    }
+    .btn.login {
+      background: var(--primary-color);
+      box-shadow: 0 8px 20px var(--shadow-color);
+    }
+    .btn.login:hover {
+      background: var(--secondary-color);
+      box-shadow: 0 12px 30px var(--shadow-color);
+    }
+    .btn.signup {
+      background: white;
+      color: var(--primary-color);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.6);
+    }
+    .btn.signup:hover {
+      background: #e0e7ff;
+      box-shadow: 0 12px 30px rgba(255, 255, 255, 0.8);
+    }
+    footer {
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.875rem;
+      color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem;
+      }
+      .content-box {
+        padding: 1rem 1.5rem;
+      }
+      .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        max-width: none;
+        flex: 1;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const currentUser = localStorage.getItem("crickfestCurrentUser");
+      if (currentUser) {
+        window.location.href = "portfolio.html";
+      }
+    });
+  </script>
+</head>
+<body>
+  <header>Crickfest</header>
+  <main>
+    <div class="content-box">
+      <h2>Welcome</h2>
+      <p>Welcome to Crickfest, the next-generation platform for investing in cricket players' stocks. Dive into a seamless, secure, and commission-free trading experience designed for today's cricket enthusiasts.</p>
+    </div>
+    <div class="content-box">
+      <h2>Real-time Trading</h2>
+      <p>Track real-time player stock prices, manage your portfolio effortlessly, and compete with others on our dynamic leaderboard.</p>
+    </div>
+    <div class="content-box">
+      <h2>Easy to Use</h2>
+      <p>Whether you're a beginner or a seasoned investor, Crickfest offers an intuitive interface and powerful tools to help you succeed.</p>
+    </div>
+    <div class="content-box">
+      <h2>Join Our Community</h2>
+      <p>Join our vibrant community and start your journey to becoming a top cricket stock investor today!</p>
+    </div>
+    <div class="content-box">
+      <h2>Important Notice</h2>
+      <p>This website is a fantasy stock game platform. It is not a real trading platform for the stock market. The concept is entirely different and meant for entertainment and educational purposes only.</p>
+    </div>
+    <div class="buttons">
+      <a href="login.html" class="btn login">Login</a>
+      <a href="signup.html" class="btn signup">Sign Up</a>
+    </div>
+  </main>
+  <footer>&copy; 2024 Crickfest. All rights reserved.</footer>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crickfest</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header>
+        <div class="logo">Crickfest</div>
+        <nav>
+            <ul>
+                <li><a href="stocks.html">Stocks</a></li>
+                <li><a href="contests.html">Contests</a></li>
+                <li><a href="my-contests.html">My Contests</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="wallet.html">Wallet</a></li>
+                <li><a href="withdraw.html">Withdraw</a></li>
+                <li><a href="transactions.html">Transactions</a></li>
+                <li><a href="referral.html">Referral</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+        <button id="loginBtn" onclick="window.location.href='start.html'">Login</button>
+        <button id="logoutBtn" style="display:none;">Logout</button>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Invest in Players Stocks</h1>
+            <p>Simple, secure, and investing.</p>
+        </section>
+
+        <section class="market-overview">
+            <h2>Market Overview</h2>
+            <div class="stocks-list" id="stocks-list">
+                <!-- Stock items will be inserted here by JS -->
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>Why Choose Crickfest?</h2>
+            <div class="feature-cards">
+                <div class="card">
+                    <h3>Zero Commission</h3>
+                    <p>Trades in players stocks</p>
+                </div>
+                <div class="card">
+                    <h3>Easy to Use</h3>
+                    <p>Intuitive platform designed for beginners and experts alike.</p>
+                </div>
+                <div class="card">
+                    <h3>Secure</h3>
+                    <p>Your investments are safe with industry-leading security.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <script src="script.js"></script>
+    <script src="script-getstarted-2.js"></script>
+    <script src="script-login-logout-toggle.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Redirect to login if not logged in
+            const currentUser = localStorage.getItem("crickfestCurrentUser");
+            if (!currentUser) {
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+</body>
+</html>
