@@ -5,7 +5,7 @@ const http = require('http');
 const mysql = require('mysql2/promise'); // Using promise-based mysql2 client
 const bcrypt = require('bcryptjs');
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 
 // MySQL connection pool setup
@@ -144,6 +144,11 @@ function updatePrice(stock) {
 
 // Create HTTP server (optional, for upgrade to WebSocket)
 const server = http.createServer();
+
+// Start the server listening on the configured port
+server.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+});
 
 let contestLock = false;
 
