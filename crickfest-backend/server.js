@@ -283,6 +283,9 @@ function scheduleDailyLock() {
 
 scheduleDailyLock();
 
+// Add WebSocket server initialization
+const wss = new WebSocket.Server({ server });
+
 // Modify contest application logic to check contestLock flag
 // Assuming contest application is handled in a message type 'applyContest'
 wss.on('connection', function connection(ws) {
